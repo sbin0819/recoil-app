@@ -1,6 +1,9 @@
+import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { todoListAtom, textAtom } from 'store';
 import { TodoItem } from './TodoItem';
+import axios from 'axios'
+
 function Todolist() {
   const [todoList, setTodoList] = useRecoilState(todoListAtom);
   const [text, setText] = useRecoilState(textAtom);
@@ -15,8 +18,17 @@ function Todolist() {
       id: todoList.length,
       text,
     };
+
     setTodoList((prev) => [...prev, newText]);
   };
+
+  const fetch = async () => {
+    const res = await axios.get('http://localhost:5000/todos');
+    console.log(res);
+  };
+  useEffect(() => {
+    fetch();
+  }, []);
 
   return (
     <div>
