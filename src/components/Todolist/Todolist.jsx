@@ -23,7 +23,7 @@ function Todolist() {
   };
 
   const fetch = async () => {
-    const res = await axios.get('http://localhost:5000/todos');
+    const res = await axios.get('http://localhost:8080/todos');
     console.log(res);
   };
   useEffect(() => {
