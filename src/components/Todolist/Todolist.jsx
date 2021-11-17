@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { todoListAtom, textAtom } from 'store';
 import { TodoItem } from './TodoItem';
-import axios from 'axios'
+import axios from 'axios';
 
 function Todolist() {
   const [todoList, setTodoList] = useRecoilState(todoListAtom);
@@ -23,7 +23,7 @@ function Todolist() {
   };
 
   const fetch = async () => {
-    const res = await axios.get('http://localhost:8080/todos');
+    const res = await axios.get('http://localhost:8888/todos');
     console.log(res);
   };
   useEffect(() => {
