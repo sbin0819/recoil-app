@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { todoListAtom } from 'store';
+import { todoListAtom, todoListSelector } from 'store';
 import useOnClickOutside from 'hook/useOnClickOutside';
 
 export function TodoItem({ todo }) {
@@ -8,6 +8,7 @@ export function TodoItem({ todo }) {
   const inputRef = useRef(null);
   const [isEdit, setIsEdit] = useState(false);
   const [todoList, setTodoList] = useRecoilState(todoListAtom);
+  const [t, setT] = useRecoilState(todoListSelector);
   const [text, setText] = useState(todo.text);
   useOnClickOutside(ref, () => setIsEdit(false));
 

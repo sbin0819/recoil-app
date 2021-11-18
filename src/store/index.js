@@ -1,14 +1,28 @@
 import { atom, selector } from 'recoil';
-
-export const todoListAtom = atom({
-  key: 'todoListAtom',
-  default: [
-    { id: 'abc', text: 'recoil 배우기' },
-    { id: 'bbb', text: '영상 찍기' },
-  ],
-});
+import axios from 'axios';
 
 export const textAtom = atom({
   key: 'textAtom',
   default: '',
+});
+
+export const todoListSelector = selector({
+  key: 'todoListSelector',
+  get: async () => {
+    const response = await axios.get('http://localhost:8888/todos');
+    if (response.error) {
+      throw response.error;
+    }
+    return response.data;
+  },
+  set: ({ set }, value) => {
+    console.log(set);
+    set(todoListAtom, value);
+    return;
+  },
+});
+
+export const todoListAtom = atom({
+  key: 'todoListAtom',
+  default: todoListSelector,
 });
