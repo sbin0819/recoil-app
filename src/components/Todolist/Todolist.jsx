@@ -1,34 +1,28 @@
-import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { todoListAtom, textAtom } from 'store';
+import { todoListSelector, textAtom } from 'store';
 import { TodoItem } from './TodoItem';
-import axios from 'axios'
+import axios from 'axios';
 
 function Todolist() {
-  const [todoList, setTodoList] = useRecoilState(todoListAtom);
+  const [todoList, setTodoList] = useRecoilState(todoListSelector);
   const [text, setText] = useRecoilState(textAtom);
 
   const onChange = (e) => {
     const { value } = e.target;
     setText(value);
   };
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const newText = {
-      id: todoList.length,
       text,
     };
-
-    setTodoList((prev) => [...prev, newText]);
+    try {
+      const { data } = await axios.post('http://localhost:8888/todos', newText);
+      setTodoList((prev) => [...prev, data]);
+    } catch (err) {
+      throw err;
+    }
   };
-
-  const fetch = async () => {
-    const res = await axios.get('http://localhost:8080/todos');
-    console.log(res);
-  };
-  useEffect(() => {
-    fetch();
-  }, []);
 
   return (
     <div>
