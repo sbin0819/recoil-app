@@ -1,12 +1,11 @@
-import { useEffect, Suspense } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { todoListAtom, textAtom, todoListSelector } from 'store';
 import { TodoItem } from './TodoItem';
 import axios from 'axios';
 
 function Todolist() {
-  const [todoList, setTodoList] = useRecoilState(todoListAtom);
   const [text, setText] = useRecoilState(textAtom);
+  const [todoList, setTodoList] = useRecoilState(todoListSelector);
 
   const onChange = (e) => {
     const { value } = e.target;
@@ -18,7 +17,7 @@ function Todolist() {
     const newText = {
       text,
     };
-    await axios.post('http://localhost:8888/todos', newText);
+    // await axios.post('http://localhost:8888/todos', newText);
     setTodoList((prev) => [...prev, newText]);
   };
 
