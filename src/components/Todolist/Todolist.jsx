@@ -17,7 +17,7 @@ function Todolist() {
     const newText = {
       text,
     };
-    // await axios.post('http://localhost:8888/todos', newText);
+    await axios.post('http://localhost:8888/todos', newText);
     setTodoList((prev) => [...prev, newText]);
   };
 

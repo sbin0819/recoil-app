@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const todoListAtom = atom({
   key: 'todoListAtom',
-  default: [],
+  default: null,
 });
 
 export const textAtom = atom({
@@ -25,7 +25,18 @@ export const todoListSelectorFamily = selectorFamily({
 
 export const todoListSelector = selector({
   key: 'todoListSelector',
-  get: ({ get }) => get(todoListSelectorFamily()),
+  get: async ({ get }) => {
+    try {
+      const todoListAtomState = get(todoListAtom);
+      if (todoListAtomState !== null) {
+        return todoListAtomState;
+      }
+      const response = await axios.get('http://localhost:8888/todos');
+      return response.data;
+    } catch (err) {
+      throw err;
+    }
+  },
   set: ({ set }, newValue) => set(todoListAtom, newValue),
 });
 
@@ -37,5 +48,5 @@ export const testAtom = atom({
 export const testSelector = selector({
   key: 'testSelector',
   get: ({ get }) => get(testAtom),
-  set: ({ set }, newValue) => set(testAtom, newValue),
+  set: ({ set }, newValue) => set(testAtom),
 });
