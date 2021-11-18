@@ -15,11 +15,6 @@ export const todoListSelector = selector({
     }
     return response.data;
   },
-  set: ({ set }, value) => {
-    console.log(set);
-    set(todoListAtom, value);
-    return;
-  },
 });
 
 export const todoListAtom = atom({
