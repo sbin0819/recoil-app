@@ -67,7 +67,7 @@ export function TodoItem({ todo }) {
     console.log(todo.id);
     const newTextList = todoList.filter((_todo) => _todo.id !== todo.id);
     console.log(newTextList);
-    // setTodoList(newTextList);
+    setTodoList(newTextList);
   };
 
   return (
