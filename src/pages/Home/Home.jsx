@@ -12,7 +12,9 @@ function Home() {
           </Suspense>
         </div>
         <div>
-          <Search />
+          <Suspense fallback={<div>loading...</div>}>
+            <Search />
+          </Suspense>
         </div>
       </div>
     </div>
