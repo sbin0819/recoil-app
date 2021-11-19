@@ -66,7 +66,8 @@ export function TodoItem({ todo }) {
   const onHandleDelete = () => {
     console.log(todo.id);
     const newTextList = todoList.filter((_todo) => _todo.id !== todo.id);
-    setTodoList(newTextList);
+    console.log(newTextList);
+    // setTodoList(newTextList);
   };
 
   return (
