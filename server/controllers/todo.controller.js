@@ -65,6 +65,7 @@ const TodoController = {
       .then((num) => {
         if (num == 1) {
           res.send({
+            data: true,
             message: 'Todo was updated successfully.',
           });
         } else {
@@ -81,7 +82,6 @@ const TodoController = {
   },
   deleteOne: (req, res) => {
     const id = req.params.id;
-
     Todo.destroy({
       where: { id: id },
     })
@@ -98,6 +98,7 @@ const TodoController = {
       })
       .catch((err) => {
         res.status(500).send({
+          data: true,
           message: 'Could not delete Todo with id=' + id,
         });
       });

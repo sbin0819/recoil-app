@@ -19,6 +19,7 @@ function Todolist() {
     try {
       const { data } = await axios.post('http://localhost:8888/todos', newText);
       setTodoList((prev) => [...prev, data]);
+      setText('');
     } catch (err) {
       throw err;
     }
