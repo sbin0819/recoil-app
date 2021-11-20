@@ -71,11 +71,13 @@ function Todolist() {
         <button type="submit">submit</button>
       </StyledForm>
       <ListContainer>
-        {todoList.map((todo) => (
-          <Fragment key={todo.id}>
-            <TodoItem todo={todo} />
-          </Fragment>
-        ))}
+        {todoList.map((todo) => {
+          return (
+            <Fragment key={todo.id}>
+              <TodoItem todo={todo} />
+            </Fragment>
+          );
+        })}
       </ListContainer>
     </Container>
   );
