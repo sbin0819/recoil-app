@@ -9,6 +9,9 @@ const StyledForm = styled.form`
   display: flex;
   align-items: center;
   border-bottom: 2px solid ${color1.primary};
+  :last-child {
+    border-bottom: none;
+  }
 
   .inputArea {
     height: 54px;

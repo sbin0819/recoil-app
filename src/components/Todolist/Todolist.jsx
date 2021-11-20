@@ -33,7 +33,6 @@ const StyledForm = styled.form`
   }
 `;
 const ListContainer = styled.div`
-  height: 432px;
   overflow: scroll;
 `;
 
