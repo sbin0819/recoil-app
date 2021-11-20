@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { todoListSelector, textAtom } from 'store';
 import { TodoItem } from './TodoItem';
@@ -33,7 +33,6 @@ const StyledForm = styled.form`
   }
 `;
 const ListContainer = styled.div`
-  height: 432px;
   overflow: scroll;
 `;
 
@@ -71,11 +70,13 @@ function Todolist() {
         <button type="submit">submit</button>
       </StyledForm>
       <ListContainer>
-        {todoList.map((todo, i) => (
-          <Fragment key={i}>
-            <TodoItem todo={todo} />
-          </Fragment>
-        ))}
+        {todoList.map((todo) => {
+          return (
+            <Fragment key={todo.id}>
+              <TodoItem todo={todo} />
+            </Fragment>
+          );
+        })}
       </ListContainer>
     </Container>
   );
