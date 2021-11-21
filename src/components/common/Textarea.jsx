@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useRef, useEffect } from 'react';
+import { memo, useCallback, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 const TextArea = ({ className, value, onChange, onBlur, placeholder }) => {

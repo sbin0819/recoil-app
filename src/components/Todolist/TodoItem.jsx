@@ -172,7 +172,7 @@ export function TodoItem({ todo }) {
               <TextArea
                 value={content}
                 onChange={(e) => onChangeContent(e)}
-                onBlurContent={onBlurContent}
+                onBlur={onBlurContent}
                 placeholder="notes"
               />
             </div>
