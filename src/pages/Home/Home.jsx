@@ -1,7 +1,8 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import Todolist from 'components/Todolist/Todolist';
 import styled from 'styled-components';
 import { color1 } from 'styles/colors';
+import axios from 'axios';
 
 const TitleContainer = styled.h1`
   display: flex;
@@ -22,6 +23,13 @@ const FallbackContainer = styled.div`
   border: 2px solid ${color1.primary};
 `;
 function Home() {
+  const fetch = async () => {
+    const res = await axios.get('http://localhost:5000/todos');
+    console.log(res);
+  };
+  useEffect(() => {
+    fetch();
+  }, []);
   return (
     <div style={{ position: 'relative' }}>
       <TitleContainer>TODOS</TitleContainer>

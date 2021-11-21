@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { color1 } from 'styles/colors';
 import { getDate } from 'lib/utils';
 
+import { TextArea } from 'components/common';
+
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -74,22 +76,26 @@ const MainFormArea = styled.form`
 `;
 
 const SecondaryFormArea = styled.div`
-  padding: 3px 50px 8px 55px;
+  padding: 3px 50px 16px 55px;
   textarea {
     border: none;
     width: 100%;
     overflow-y: hidden;
     resize: none;
   }
+  .date {
+    margin-top: 10px;
+  }
 `;
 
 export function TodoItem({ todo }) {
-  const ref = useRef(null);
+  const mainRef = useRef(null);
   const inputRef = useRef(null);
   const [isEdit, setIsEdit] = useState(false);
   const [todoList, setTodoList] = useRecoilState(todoListSelector);
   const [title, setTitle] = useState(todo.title);
-  useOnClickOutside(ref, () => setIsEdit(false));
+  const [content, setContent] = useState(todo.content || '');
+  useOnClickOutside(mainRef, () => setIsEdit(false));
 
   const handleEditMode = () => setIsEdit(true);
 
@@ -124,6 +130,13 @@ export function TodoItem({ todo }) {
     setTodoList(newTodoList);
   };
 
+  const onHandleContent = (e) => {
+    const { value } = e.target;
+    setContent(value);
+    const newTodoList = handleEditTodoList({ content: value });
+    setTodoList(newTodoList);
+  };
+
   useEffect(() => {
     if (isEdit) {
       inputRef.current.focus();
@@ -131,7 +144,7 @@ export function TodoItem({ todo }) {
   }, [isEdit]);
 
   return (
-    <Container ref={ref}>
+    <Container ref={mainRef}>
       <div style={{ width: '100%' }}>
         <MainFormArea onSubmit={onHandleEditTodo}>
           <CheckboxContainer>
@@ -157,9 +170,13 @@ export function TodoItem({ todo }) {
         {isEdit && (
           <SecondaryFormArea>
             <form>
-              <textarea placeholder="notes" />
+              <TextArea
+                value={content}
+                onChange={(e) => onHandleContent(e)}
+                placeholder="notes"
+              />
             </form>
-            <div>{getDate(todo.updatedAt)}</div>
+            <div className="date">{getDate(todo.updatedAt)}</div>
           </SecondaryFormArea>
         )}
       </div>
