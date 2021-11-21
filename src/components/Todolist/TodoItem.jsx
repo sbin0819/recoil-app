@@ -130,11 +130,14 @@ export function TodoItem({ todo }) {
     setTodoList(newTodoList);
   };
 
-  const onHandleContent = (e) => {
+  const onChangeContent = (e) => {
     const { value } = e.target;
     setContent(value);
-    const newTodoList = handleEditTodoList({ content: value });
-    setTodoList(newTodoList);
+  };
+
+  const onBlurContent = () => {
+    const newTodoList = handleEditTodoList({ content });
+    return setTodoList(newTodoList);
   };
 
   useEffect(() => {
@@ -169,13 +172,14 @@ export function TodoItem({ todo }) {
         </MainFormArea>
         {isEdit && (
           <SecondaryFormArea>
-            <form>
+            <div>
               <TextArea
                 value={content}
-                onChange={(e) => onHandleContent(e)}
+                onChange={(e) => onChangeContent(e)}
+                onBlurContent={onBlurContent}
                 placeholder="notes"
               />
-            </form>
+            </div>
             <div className="date">{getDate(todo.updatedAt)}</div>
           </SecondaryFormArea>
         )}

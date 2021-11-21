@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
-const TextArea = memo(({ className, value, onChange, placeholder }) => {
+const TextArea = ({ className, value, onChange, onBlur, placeholder }) => {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -13,13 +13,13 @@ const TextArea = memo(({ className, value, onChange, placeholder }) => {
     ref.current.style.height = ref.current.scrollHeight + 'px';
   }, []);
 
-  const handleResizeHeight = useCallback(() => {
+  const handleResizeHeight = () => {
     if (ref === null || ref.current === null) {
       return;
     }
     ref.current.style.height = '38px';
     ref.current.style.height = ref.current.scrollHeight + 'px';
-  }, []);
+  };
 
   return (
     <AutoResizeTextArea
@@ -30,9 +30,10 @@ const TextArea = memo(({ className, value, onChange, placeholder }) => {
       placeholder={placeholder}
       ref={ref}
       onInput={handleResizeHeight}
+      onBlur={onBlur}
     />
   );
-});
+};
 
 const AutoResizeTextArea = styled.textarea`
   resize: none;
@@ -47,7 +48,7 @@ const AutoResizeTextArea = styled.textarea`
   line-height: 20px;
 
   &:focus {
-    /* background: azure; */
+    background: azure;
   }
 `;
 
