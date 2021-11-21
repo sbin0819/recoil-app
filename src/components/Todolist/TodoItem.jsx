@@ -75,16 +75,12 @@ const MainFormArea = styled.form`
   }
 `;
 
-const SecondaryFormArea = styled.div`
+const SubConatiner = styled.div`
   padding: 3px 50px 16px 55px;
-  textarea {
-    border: none;
-    width: 100%;
-    overflow-y: hidden;
-    resize: none;
-  }
+
   .date {
     margin-top: 10px;
+    padding-left: 8px;
   }
 `;
 
@@ -171,7 +167,7 @@ export function TodoItem({ todo }) {
           <button type="submit">변경</button>
         </MainFormArea>
         {isEdit && (
-          <SecondaryFormArea>
+          <SubConatiner>
             <div>
               <TextArea
                 value={content}
@@ -181,7 +177,7 @@ export function TodoItem({ todo }) {
               />
             </div>
             <div className="date">{getDate(todo.updatedAt)}</div>
-          </SecondaryFormArea>
+          </SubConatiner>
         )}
       </div>
     </Container>
