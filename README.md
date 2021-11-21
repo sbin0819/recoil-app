@@ -31,4 +31,10 @@ unique key 값을 통해서 리렌더링이 이루어지기 때문에
 <https://moderncss.dev/pure-css-custom-checkbox-style>
 
 ## 색상 참고
+
 <https://colorhunt.co/palette/233e8b1eae98a9f1dfffffc7>
+
+## 추가작업
+
+[] board 만들기
+[] 카테고리 만들기

@@ -37,22 +37,22 @@ const ListContainer = styled.div`
 `;
 
 function Todolist() {
+  const [title, setTitle] = useRecoilState(textAtom);
   const [todoList, setTodoList] = useRecoilState(todoListSelector);
-  const [text, setText] = useRecoilState(textAtom);
 
   const onChange = (e) => {
     const { value } = e.target;
-    setText(value);
+    setTitle(value);
   };
   const onSubmit = async (e) => {
     e.preventDefault();
-    const newText = {
-      text,
+    const newTodo = {
+      title,
     };
     try {
-      const { data } = await axios.post('http://localhost:8888/todos', newText);
+      const { data } = await axios.post('http://localhost:8888/todos', newTodo);
       setTodoList((prev) => [...prev, data]);
-      setText('');
+      setTitle('');
     } catch (err) {
       throw err;
     }
@@ -64,7 +64,7 @@ function Todolist() {
         <input
           type="text"
           placeholder="할 일을 입력해주세요..."
-          value={text}
+          value={title}
           onChange={onChange}
         />
         <button type="submit">submit</button>
