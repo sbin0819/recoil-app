@@ -4,6 +4,7 @@ import { todoListSelector } from 'store';
 import useOnClickOutside from 'hook/useOnClickOutside';
 import styled from 'styled-components';
 import { color1 } from 'styles/colors';
+import { getDate } from 'lib/utils';
 
 const Container = styled.div`
   display: flex;
@@ -59,7 +60,7 @@ const MainFormArea = styled.form`
   .deleteBtn {
     height: 20px;
     width: 50px;
-    color: red;
+    color: ${color1.red};
     border: none;
     outline: none;
     background: none;
@@ -72,12 +73,11 @@ const MainFormArea = styled.form`
   }
 `;
 
-const SecondaryFormArea = styled.form`
+const SecondaryFormArea = styled.div`
   padding: 3px 50px 8px 55px;
   textarea {
     border: none;
     width: 100%;
-    min-height: 5rem;
     overflow-y: hidden;
     resize: none;
   }
@@ -156,7 +156,10 @@ export function TodoItem({ todo }) {
         </MainFormArea>
         {isEdit && (
           <SecondaryFormArea>
-            <textarea placeholder="notes" />
+            <form>
+              <textarea placeholder="notes" />
+            </form>
+            <div>{getDate(todo.updatedAt)}</div>
           </SecondaryFormArea>
         )}
       </div>

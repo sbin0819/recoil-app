@@ -6,6 +6,8 @@ const color1 = {
   blue: '#233E8B',
   green: '#1EAE98',
   lightYellow: '#FFFFC7',
+  red: '#F90716',
+  orange: '#FF5403',
 };
 
 export { color1 };
