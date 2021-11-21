@@ -34,7 +34,7 @@ const TodoController = {
       });
   },
   create: (req, res) => {
-    if (!req.body.text) {
+    if (!req.body.title) {
       res.status(400).send({
         message: 'Text can not be empty!',
       });
@@ -42,7 +42,7 @@ const TodoController = {
     }
 
     const todo = {
-      text: req.body.text,
+      title: req.body.title,
     };
 
     Todo.create(todo)

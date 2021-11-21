@@ -1,7 +1,15 @@
 module.exports = (sequelize, Sequelize) => {
   const Todo = sequelize.define('todo', {
-    text: {
+    title: {
       type: Sequelize.STRING,
+    },
+    content: {
+      type: Sequelize.STRING,
+    },
+    completed: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
     completed: {
       type: Sequelize.BOOLEAN,
