@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { color1 } from 'styles/colors';
 import { getDate } from 'lib/utils';
 
+import { TextArea } from 'components/common';
+
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -73,23 +75,23 @@ const MainFormArea = styled.form`
   }
 `;
 
-const SecondaryFormArea = styled.div`
-  padding: 3px 50px 8px 55px;
-  textarea {
-    border: none;
-    width: 100%;
-    overflow-y: hidden;
-    resize: none;
+const SubConatiner = styled.div`
+  padding: 3px 50px 16px 55px;
+
+  .date {
+    margin-top: 10px;
+    padding-left: 8px;
   }
 `;
 
 export function TodoItem({ todo }) {
-  const ref = useRef(null);
+  const mainRef = useRef(null);
   const inputRef = useRef(null);
   const [isEdit, setIsEdit] = useState(false);
   const [todoList, setTodoList] = useRecoilState(todoListSelector);
   const [title, setTitle] = useState(todo.title);
-  useOnClickOutside(ref, () => setIsEdit(false));
+  const [content, setContent] = useState(todo.content || '');
+  useOnClickOutside(mainRef, () => setIsEdit(false));
 
   const handleEditMode = () => setIsEdit(true);
 
@@ -124,6 +126,16 @@ export function TodoItem({ todo }) {
     setTodoList(newTodoList);
   };
 
+  const onChangeContent = (e) => {
+    const { value } = e.target;
+    setContent(value);
+  };
+
+  const onBlurContent = () => {
+    const newTodoList = handleEditTodoList({ content });
+    return setTodoList(newTodoList);
+  };
+
   useEffect(() => {
     if (isEdit) {
       inputRef.current.focus();
@@ -131,7 +143,7 @@ export function TodoItem({ todo }) {
   }, [isEdit]);
 
   return (
-    <Container ref={ref}>
+    <Container ref={mainRef}>
       <div style={{ width: '100%' }}>
         <MainFormArea onSubmit={onHandleEditTodo}>
           <CheckboxContainer>
@@ -155,12 +167,17 @@ export function TodoItem({ todo }) {
           <button type="submit">변경</button>
         </MainFormArea>
         {isEdit && (
-          <SecondaryFormArea>
-            <form>
-              <textarea placeholder="notes" />
-            </form>
-            <div>{getDate(todo.updatedAt)}</div>
-          </SecondaryFormArea>
+          <SubConatiner>
+            <div>
+              <TextArea
+                value={content}
+                onChange={(e) => onChangeContent(e)}
+                onBlur={onBlurContent}
+                placeholder="notes"
+              />
+            </div>
+            <div className="date">{getDate(todo.updatedAt)}</div>
+          </SubConatiner>
         )}
       </div>
     </Container>
