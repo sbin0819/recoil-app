@@ -8,6 +8,8 @@ import { getDate } from 'lib/utils';
 
 import { TextArea } from 'components/common';
 
+import axios from 'axios';
+
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -90,8 +92,21 @@ export function TodoItem({ todo }) {
   const [isEdit, setIsEdit] = useState(false);
   const [todoList, setTodoList] = useRecoilState(todoListSelector);
   const [title, setTitle] = useState(todo.title);
+  const [initContent, setInitContent] = useState(todo.content || '');
   const [content, setContent] = useState(todo.content || '');
-  useOnClickOutside(mainRef, () => setIsEdit(false));
+  useOnClickOutside(mainRef, async () => {
+    setIsEdit(false);
+    if (initContent !== content) {
+      try {
+        setInitContent(content);
+        await axios.put(`http://localhost:8888/todos/${todo.id}`, {
+          content,
+        });
+      } catch (err) {
+        throw err;
+      }
+    }
+  });
 
   const handleEditMode = () => setIsEdit(true);
 
@@ -109,21 +124,41 @@ export function TodoItem({ todo }) {
     });
   }
 
-  const onHandleEditTodo = (e) => {
+  const onHandleEditTodo = async (e, id) => {
     e.preventDefault();
-    const newTextList = handleEditTodoList({ title: title });
-    setTodoList(newTextList);
-    setIsEdit(false);
+    const newTodoList = handleEditTodoList({ title: title });
+    try {
+      await axios.put(`http://localhost:8888/todos/${id}`, {
+        title,
+      });
+      setInitContent(content);
+      setTodoList(newTodoList);
+      setIsEdit(false);
+    } catch (err) {
+      throw err;
+    }
   };
 
-  const onHandleCompleted = () => {
+  const onHandleCompleted = async (id) => {
     const newTodoList = handleEditTodoList({ completed: !todo.completed });
-    setTodoList(newTodoList);
+    try {
+      await axios.put(`http://localhost:8888/todos/${id}`, {
+        completed: !todo.completed,
+      });
+      setTodoList(newTodoList);
+    } catch (err) {
+      throw err;
+    }
   };
 
-  const onHandleDelete = () => {
+  const onHandleDelete = async (id) => {
     const newTodoList = todoList.filter((_todo) => _todo.id !== todo.id);
-    setTodoList(newTodoList);
+    try {
+      await axios.delete(`http://localhost:8888/todos/${id}`);
+      setTodoList(newTodoList);
+    } catch (err) {
+      throw err;
+    }
   };
 
   const onChangeContent = (e) => {
@@ -131,9 +166,16 @@ export function TodoItem({ todo }) {
     setContent(value);
   };
 
-  const onBlurContent = () => {
+  const onBlurContent = async (id) => {
     const newTodoList = handleEditTodoList({ content });
-    return setTodoList(newTodoList);
+    try {
+      await axios.put(`http://localhost:8888/todos/${id}`, {
+        content,
+      });
+      setTodoList(newTodoList);
+    } catch (err) {
+      throw err;
+    }
   };
 
   useEffect(() => {
@@ -145,13 +187,13 @@ export function TodoItem({ todo }) {
   return (
     <Container ref={mainRef}>
       <div style={{ width: '100%' }}>
-        <MainFormArea onSubmit={onHandleEditTodo}>
+        <MainFormArea onSubmit={(e) => onHandleEditTodo(e, todo.id)}>
           <CheckboxContainer>
             <input
               className="checkBtn"
               type="checkbox"
               checked={todo.completed}
-              onChange={onHandleCompleted}
+              onChange={() => onHandleCompleted(todo.id)}
             />
           </CheckboxContainer>
           <input
@@ -161,7 +203,11 @@ export function TodoItem({ todo }) {
             onChange={onChangeText}
             ref={inputRef}
           />
-          <button className="deleteBtn" type="button" onClick={onHandleDelete}>
+          <button
+            className="deleteBtn"
+            type="button"
+            onClick={() => onHandleDelete(todo.id)}
+          >
             X
           </button>
           <button type="submit">변경</button>
@@ -172,7 +218,7 @@ export function TodoItem({ todo }) {
               <TextArea
                 value={content}
                 onChange={(e) => onChangeContent(e)}
-                onBlur={onBlurContent}
+                onBlur={() => onBlurContent(todo.id)}
                 placeholder="notes"
               />
             </div>
