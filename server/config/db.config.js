@@ -4,7 +4,7 @@ module.exports = {
   HOST: process.env.DB_HOST,
   USER: process.env.DB_USER,
   PASSWORD: process.env.DB_PASS,
-  DB: 'learn-express',
+  DB: 'recoil',
   dialect: 'mysql',
   pool: {
     max: 5,
